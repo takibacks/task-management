@@ -30,15 +30,15 @@ app.get('/api/tasks', (req, res) => {
 
 // === API: タスク追加 ===
 app.post('/api/tasks', (req, res) => {
-  const { title, priority, deadline, category, assignee } = req.body;
+  const { title, priority, deadline, category, sub_category, assignee } = req.body;
   
   if (!title) {
     return res.status(400).json({ error: 'タスク名が必要です' });
   }
   
   const result = db.run(
-    'INSERT INTO tasks (title, priority, deadline, category, assignee, created_by) VALUES (?, ?, ?, ?, ?, ?)',
-    [title, priority || '中', deadline || null, category || null, assignee || null, 'web']
+    'INSERT INTO tasks (title, priority, deadline, category, sub_category, assignee, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [title, priority || '中', deadline || null, category || null, sub_category || null, assignee || null, 'web']
   );
   
   const task = db.get('SELECT * FROM tasks WHERE id = ?', [result.lastInsertRowid]);
@@ -48,7 +48,7 @@ app.post('/api/tasks', (req, res) => {
 // === API: タスク更新 ===
 app.put('/api/tasks/:id', (req, res) => {
   const { id } = req.params;
-  const { title, priority, status, deadline, category, assignee } = req.body;
+  const { title, priority, status, deadline, category, sub_category, assignee } = req.body;
   
   const task = db.get('SELECT * FROM tasks WHERE id = ?', [id]);
   if (!task) {
@@ -56,13 +56,14 @@ app.put('/api/tasks/:id', (req, res) => {
   }
   
   db.run(
-    'UPDATE tasks SET title = ?, priority = ?, status = ?, deadline = ?, category = ?, assignee = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+    'UPDATE tasks SET title = ?, priority = ?, status = ?, deadline = ?, category = ?, sub_category = ?, assignee = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
     [
       title !== undefined ? title : task.title,
       priority !== undefined ? priority : task.priority,
       status !== undefined ? status : task.status,
       deadline !== undefined ? deadline : task.deadline,
       category !== undefined ? category : task.category,
+      sub_category !== undefined ? sub_category : task.sub_category,
       assignee !== undefined ? assignee : task.assignee,
       id
     ]

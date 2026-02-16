@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>タスク管理</title>
+  <title>タスク管理 - ¥100M達成</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -11,7 +11,7 @@
       background: #f5f5f5;
       padding: 20px;
     }
-    .container { max-width: 1200px; margin: 0 auto; }
+    .container { max-width: 1400px; margin: 0 auto; }
     h1 { font-size: 28px; margin-bottom: 20px; color: #333; }
     
     /* 追加フォーム */
@@ -39,60 +39,6 @@
     }
     button:hover { background: #0056b3; }
     
-    /* フィルタ */
-    .filters {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .filter-btn {
-      padding: 8px 16px;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .filter-btn.active { background: #007bff; color: white; border-color: #007bff; }
-    
-    /* タスクリスト */
-    .tasks { display: flex; flex-direction: column; gap: 10px; }
-    .task {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .task.completed { opacity: 0.6; }
-    
-    .task-priority {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .task-priority.high { background: #dc3545; }
-    .task-priority.medium { background: #ffc107; }
-    .task-priority.low { background: #28a745; }
-    
-    .task-content { flex: 1; }
-    .task-title { font-size: 16px; font-weight: 500; color: #333; margin-bottom: 5px; }
-    .task-meta { font-size: 13px; color: #666; }
-    .task-meta span { margin-right: 15px; }
-    
-    .task-actions { display: flex; gap: 10px; }
-    .task-actions button {
-      padding: 6px 12px;
-      font-size: 13px;
-      background: #6c757d;
-    }
-    .task-actions button.done { background: #28a745; }
-    .task-actions button.delete { background: #dc3545; }
-    
     /* 統計 */
     .stats {
       background: white;
@@ -107,12 +53,82 @@
     .stat-item { font-size: 14px; color: #666; }
     .stat-item strong { font-size: 20px; color: #333; display: block; }
     
+    /* ビジネスカテゴリ */
+    .business-category {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .business-header {
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .business-header:hover { opacity: 0.9; }
+    .business-title { font-size: 18px; font-weight: 600; }
+    .business-stats { font-size: 13px; opacity: 0.9; }
+    .business-content { padding: 0; }
+    .business-content.collapsed { display: none; }
+    
+    /* 中項目セクション */
+    .sub-category {
+      border-top: 1px solid #eee;
+    }
+    .sub-header {
+      padding: 12px 20px;
+      background: #f8f9fa;
+      font-weight: 600;
+      font-size: 15px;
+      color: #495057;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sub-icon { font-size: 18px; }
+    
+    /* タスクリスト */
+    .tasks { padding: 10px 20px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .task {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #ddd;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .task.completed { opacity: 0.6; background: #e9ecef; }
+    .task.priority-high { border-left-color: #dc3545; }
+    .task.priority-medium { border-left-color: #ffc107; }
+    .task.priority-low { border-left-color: #28a745; }
+    
+    .task-content { flex: 1; }
+    .task-title { font-size: 15px; font-weight: 500; color: #333; margin-bottom: 5px; }
+    .task-meta { font-size: 13px; color: #666; }
+    .task-meta span { margin-right: 15px; }
+    
+    .task-actions { display: flex; gap: 8px; }
+    .task-actions button {
+      padding: 6px 12px;
+      font-size: 12px;
+      background: #6c757d;
+    }
+    .task-actions button.done { background: #28a745; }
+    .task-actions button.delete { background: #dc3545; }
+    
     /* 空状態 */
     .empty {
       text-align: center;
-      padding: 60px 20px;
+      padding: 40px 20px;
       color: #999;
-      font-size: 16px;
+      font-size: 14px;
     }
     
     /* レスポンシブ */
@@ -126,7 +142,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>📋 タスク管理</h1>
+    <h1>📋 タスク管理 - ¥100M達成プロジェクト</h1>
     
     <!-- 統計 -->
     <div class="stats" id="stats">
@@ -152,71 +168,134 @@
     <div class="add-form">
       <div class="form-row">
         <input type="text" id="task-title" placeholder="タスク名を入力..." />
+        <select id="task-category">
+          <option value="">ビジネス選択...</option>
+          <option value="アフィリエイト">アフィリエイト</option>
+          <option value="TikTok広告運用代行">TikTok広告運用代行</option>
+          <option value="デジタルコンテンツ販売">デジタルコンテンツ販売</option>
+          <option value="ノウハウレター">ノウハウレター</option>
+          <option value="システム基盤">システム基盤</option>
+          <option value="営業基盤">営業基盤</option>
+        </select>
+        <select id="task-subcategory">
+          <option value="">分類選択...</option>
+          <option value="マーケティング">📊 マーケティング</option>
+          <option value="営業">🤝 営業</option>
+          <option value="コンテンツ制作">✍️ コンテンツ制作</option>
+          <option value="システム">⚙️ システム</option>
+          <option value="その他">📌 その他</option>
+        </select>
         <select id="task-priority">
           <option value="中">優先度: 中</option>
           <option value="高">優先度: 高</option>
           <option value="低">優先度: 低</option>
         </select>
         <input type="date" id="task-deadline" />
-        <input type="text" id="task-assignee" placeholder="担当者 (任意)" />
+        <select id="task-assignee">
+          <option value="">担当者...</option>
+          <option value="takemasa">takemasa</option>
+          <option value="りゅうさん">りゅうさん</option>
+          <option value="マッチョ">マッチョ</option>
+        </select>
         <button onclick="addTask()">追加</button>
       </div>
     </div>
     
-    <!-- フィルタ -->
-    <div class="filters">
-      <button class="filter-btn active" onclick="filterTasks('all')">すべて</button>
-      <button class="filter-btn" onclick="filterTasks('未着手')">未着手</button>
-      <button class="filter-btn" onclick="filterTasks('進行中')">進行中</button>
-      <button class="filter-btn" onclick="filterTasks('完了')">完了</button>
-    </div>
-    
-    <!-- タスクリスト -->
-    <div class="tasks" id="task-list">
-      <div class="empty">タスクを追加してください</div>
-    </div>
+    <!-- ビジネスカテゴリ別タスクリスト -->
+    <div id="business-list"></div>
   </div>
   
   <script>
-    let currentFilter = 'all';
+    const SUB_ICONS = {
+      'マーケティング': '📊',
+      '営業': '🤝',
+      'コンテンツ制作': '✍️',
+      'システム': '⚙️',
+      'その他': '📌'
+    };
     
     // タスク読み込み
     async function loadTasks() {
-      const url = currentFilter === 'all' ? '/api/tasks' : `/api/tasks?status=${currentFilter}`;
-      const res = await fetch(url);
+      const res = await fetch('/api/tasks');
       const tasks = await res.json();
       
-      const taskList = document.getElementById('task-list');
+      // ビジネスカテゴリごとにグループ化
+      const grouped = {};
+      tasks.forEach(task => {
+        const category = task.category || 'その他';
+        if (!grouped[category]) grouped[category] = {};
+        
+        const subCategory = task.sub_category || 'その他';
+        if (!grouped[category][subCategory]) grouped[category][subCategory] = [];
+        
+        grouped[category][subCategory].push(task);
+      });
       
-      if (tasks.length === 0) {
-        taskList.innerHTML = '<div class="empty">タスクがありません</div>';
+      const businessList = document.getElementById('business-list');
+      businessList.innerHTML = '';
+      
+      if (Object.keys(grouped).length === 0) {
+        businessList.innerHTML = '<div class="empty">タスクを追加してください</div>';
         return;
       }
       
-      taskList.innerHTML = tasks.map(task => `
-        <div class="task ${task.status === '完了' ? 'completed' : ''}">
-          <div class="task-priority ${task.priority === '高' ? 'high' : task.priority === '中' ? 'medium' : 'low'}"></div>
-          <div class="task-content">
-            <div class="task-title">${task.title}</div>
-            <div class="task-meta">
-              <span>ID: ${task.id}</span>
-              <span>優先度: ${task.priority}</span>
-              ${task.deadline ? `<span>締切: ${task.deadline}</span>` : ''}
-              ${task.assignee ? `<span>担当: ${task.assignee}</span>` : ''}
-              <span>状態: ${task.status}</span>
-            </div>
+      // ビジネスカテゴリごとに表示
+      Object.entries(grouped).sort().forEach(([category, subs]) => {
+        const totalTasks = Object.values(subs).flat().length;
+        const completedTasks = Object.values(subs).flat().filter(t => t.status === '完了').length;
+        const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+        
+        const businessDiv = document.createElement('div');
+        businessDiv.className = 'business-category';
+        businessDiv.innerHTML = `
+          <div class="business-header" onclick="toggleBusiness(this)">
+            <div class="business-title">${category}</div>
+            <div class="business-stats">${completedTasks}/${totalTasks} 完了 (${progress}%)</div>
           </div>
-          <div class="task-actions">
-            ${task.status !== '完了' ? `
-              <button class="done" onclick="updateTaskStatus(${task.id}, '完了')">完了</button>
-              <button onclick="updateTaskStatus(${task.id}, '進行中')">進行中</button>
-            ` : `
-              <button onclick="updateTaskStatus(${task.id}, '未着手')">再開</button>
-            `}
-            <button class="delete" onclick="deleteTask(${task.id})">削除</button>
+          <div class="business-content">
+            ${Object.entries(subs).map(([subCat, subTasks]) => `
+              <div class="sub-category">
+                <div class="sub-header">
+                  <span class="sub-icon">${SUB_ICONS[subCat] || '📌'}</span>
+                  ${subCat} (${subTasks.length}件)
+                </div>
+                <div class="tasks">
+                  ${subTasks.map(task => `
+                    <div class="task priority-${task.priority === '高' ? 'high' : task.priority === '中' ? 'medium' : 'low'} ${task.status === '完了' ? 'completed' : ''}">
+                      <div class="task-content">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-meta">
+                          <span>ID: ${task.id}</span>
+                          <span>優先度: ${task.priority}</span>
+                          ${task.deadline ? `<span>締切: ${task.deadline}</span>` : ''}
+                          ${task.assignee ? `<span>担当: ${task.assignee}</span>` : ''}
+                          <span>状態: ${task.status}</span>
+                        </div>
+                      </div>
+                      <div class="task-actions">
+                        ${task.status !== '完了' ? `
+                          <button class="done" onclick="updateTaskStatus(${task.id}, '完了')">完了</button>
+                          <button onclick="updateTaskStatus(${task.id}, '進行中')">進行中</button>
+                        ` : `
+                          <button onclick="updateTaskStatus(${task.id}, '未着手')">再開</button>
+                        `}
+                        <button class="delete" onclick="deleteTask(${task.id})">削除</button>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
           </div>
-        </div>
-      `).join('');
+        `;
+        businessList.appendChild(businessDiv);
+      });
+    }
+    
+    // ビジネスカテゴリの折りたたみ
+    function toggleBusiness(header) {
+      const content = header.nextElementSibling;
+      content.classList.toggle('collapsed');
     }
     
     // 統計読み込み
@@ -242,20 +321,21 @@
         return;
       }
       
+      const category = document.getElementById('task-category').value;
+      const subCategory = document.getElementById('task-subcategory').value;
       const priority = document.getElementById('task-priority').value;
       const deadline = document.getElementById('task-deadline').value || null;
-      const assignee = document.getElementById('task-assignee').value.trim() || null;
+      const assignee = document.getElementById('task-assignee').value || null;
       
       await fetch('/api/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, priority, deadline, assignee })
+        body: JSON.stringify({ title, category, sub_category: subCategory, priority, deadline, assignee })
       });
       
       // フォームクリア
       document.getElementById('task-title').value = '';
       document.getElementById('task-deadline').value = '';
-      document.getElementById('task-assignee').value = '';
       
       loadTasks();
       loadStats();
@@ -281,19 +361,6 @@
       
       loadTasks();
       loadStats();
-    }
-    
-    // フィルタ
-    function filterTasks(status) {
-      currentFilter = status;
-      
-      // ボタンのアクティブ状態更新
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      loadTasks();
     }
     
     // Enterキーで追加
