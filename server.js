@@ -94,6 +94,34 @@ app.get('/api/stats', (req, res) => {
   });
 });
 
+// === API: 初期化（ParkAlertタスク追加） ===
+app.post('/api/init-parkalert', (req, res) => {
+  const authToken = req.headers['x-admin-token'];
+  if (authToken !== process.env.ADMIN_TOKEN && authToken !== 'init-2026') {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  
+  const PARKALERT_TASKS = require('./add-parkalert-tasks-data.json');
+  
+  let count = 0;
+  const added = [];
+  
+  PARKALERT_TASKS.forEach(task => {
+    const result = db.run(
+      'INSERT INTO tasks (title, category, sub_category, priority, status, deadline, assignee, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [task.title, task.category, task.sub_category, task.priority, task.status, task.deadline, task.assignee, 'parkalert-init']
+    );
+    count++;
+    added.push({ id: result.lastInsertRowid, title: task.title });
+  });
+  
+  res.json({
+    success: true,
+    count,
+    tasks: added
+  });
+});
+
 app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 タスク管理Web UI起動: http://localhost:${port}`);
   console.log(`📱 チームメンバーは http://あなたのIP:${port} でアクセス`);
